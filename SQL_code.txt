@@ -1,0 +1,41 @@
+create table `tbl_user`(
+`user_id` bigint auto_increment,
+`user_name` varchar(45) null,
+`user_username` varchar(45) null,
+`user_password` varchar(45) null,
+primary key (`user_id`));
+
+
+
+1. Aseta ensin ohjelman lopetusmerkiksi $$, jotta ohjelman suoritus ei lopu oletusmerkkiin ';' joka on if lauseiden sisällä
+2. Tarkista ensin löytyykö annettu käyttäjänimi 'tbl_user'-taulukosta
+3. Mikäli ei löydy, luo uusi käyttäjä annetuilla tiedoilla
+4. Aseta delimiter lopuksi default-arvoon ';'
+
+delimiter $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_createUser`(
+IN p_name VARCHAR(45),
+IN p_username VARCHAR(45),
+IN p_password VARCHAR(100)
+)
+BEGIN
+	if (SELECT exists (SELECT 1 FROM `tbl_user` WHERE user_username = p_username)) THEN
+	SELECT 'Username Exists !!';
+
+	ELSE
+	INSERT INTO `tbl_user`
+	(
+		user_name,
+		user_username,
+		user_password
+	)
+	values
+	(
+		p_name,
+		p_username,
+		p_password
+	);
+END IF;
+END$$
+
+DELIMITER ;
