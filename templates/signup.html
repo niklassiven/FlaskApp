@@ -48,6 +48,7 @@
 	<script type="text/javascript">
 		$(function() {
 			$('#btnSignUp').click(function(e) {
+				//Preventing the page from updating before the user input is sent to the database
 				e.preventDefault();
 				$.ajax({
 					url: '/signUp',
